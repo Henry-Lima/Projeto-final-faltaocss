@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Atualizar Projeto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Atualizar Projeto</h2>
+    <form id="updateForm">
+      <input type="number" name="id" id="id">
+      <input type="submit" value="Procurar" onclick="buscarProjeto(event)">
+    </form>
+    <form id="formEvento">
+      
+    </form>
+  </div>
+
+
+  <script>
+    
+    let buscarProjeto = async(event) => {
+      event.preventDefault();
+
+      let id = document.getElementById("id").value;
+      let resposta = await fetch(`http://localhost:3031/pegar/${id}`);
+      let projeto = await resposta.json();
+
+      document.getElementById('updateForm').style.display = 'none';
+      
+      let div = document.getElementById('formEvento');
+
+      div.innerHTML += ` 
+      <div class="mb-3">
+        <label for="id" class="form-label">ID do Projeto</label>
+        <input type="text" class="form-control" id="id" name="id" value="${projeto.id}" readonly>
+      </div>
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" class="form-control" id="nome" name="nome" value="${projeto.nome}">
+      </div>
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição:</label>
+        <input type="text" class="form-control" id="descricao" name="descricao" value="${projeto.descricao}">
+      </div>
+      <div class="mb-3">
+        <label for="data" class="form-label">Data:</label>
+        <input type="date" class="form-control" id="data" name="data" value="${projeto.data}">
+      </div>
+      <div class="mb-3">
+        <label for="funcionarios" class="form-label">Funcionários:</label>
+        <input type="text" class="form-control" id="funcionarios" name="funcionarios" value="${projeto.funcionarios}">
+      </div>
+      <button type="button" class="btn btn-primary" onclick="atualizarProjeto()">Atualizar</button>
+      `
+    }
+
+     let atualizarProjeto = async() => {
+      let id = document.getElementById("id").value;
+      let nome = document.getElementById("nome").value;
+      let descricao = document.getElementById("descricao").value;
+      let data = document.getElementById("data").value;
+      let funcionarios = document.getElementById("funcionarios").value;
+
+        let response = await fetch(`http://localhost:3031/update/${id}/${nome}/${descricao}/${data}/${funcionarios}`);
+
+        setTimeout(() => {
+        alert('Projeto atualizado com sucesso !!')
+        window.location.href = 'index.html';
+      }, 1000)
+
+      }
+    
+  </script>
+</body>
+</html>

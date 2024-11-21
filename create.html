@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Criar Projeto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Criar Projeto</h2>
+    <form action="http://localhost:3031/criar" method="POST">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+      </div>
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição:</label>
+        <input type="text" class="form-control" id="descricao" name="descricao" required>
+      </div>
+      <div class="mb-3">
+        <label for="data" class="form-label">Data:</label>
+        <input type="date" class="form-control" id="data" name="data" required>
+      </div>
+      <div class="mb-3">
+        <label for="funcionarios" class="form-label">Funcionários:</label>
+        <input type="text" class="form-control" id="funcionarios" name="funcionarios">
+      </div>
+      <button type="submit" class="btn btn-primary" onclick="criaProjetos(event)">Criar</button>
+    </form>
+  </div>
+</body>
+  <script>
+  
+  let criaProjetos = async (event) => {
+    event.preventDefault();
+    let nome = document.getElementById("nome").value;
+    let descricao = document.getElementById("descricao").value;
+    let data = document.getElementById("data").value;
+    let funcionarios = document.getElementById("funcionarios").value;
+    let response = await fetch(`http://localhost:3031/criar/${nome}/${descricao}/${data}/${funcionarios}`);
+    setTimeout(() => {
+      alert('Seu projeto foi criado com sucesso !!')
+      window.location.href= 'index.html';
+    }, 1000);
+  }
+
+    
+    
+    
+  </script>
+</html>

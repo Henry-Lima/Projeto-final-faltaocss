@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+
+</head>
+<body>
+  <div class="container text-center mt-5">
+    <h1 class="mb-4">Informações do Projeto</h1>
+    <button onclick="consultarProjeto()" class="btn btn-primary">Mostrar Informações</button>
+    <div id="divProjetos" class="mt-4"></div>
+  </div>
+
+  <div>
+    <a href="create.html" class="btn btn-secondary">+</a>
+    <a href="delete.html" class="btn btn-secondary">Deletar</a>
+    <a href="update.html" class="btn btn-secondary">Editar</a>
+  </div>
+
+
+  <script>
+    async function consultarProjeto() {
+      try {
+        const resposta = await fetch("http://localhost:3031/consultar");
+        const tabela = await resposta.json();
+        const div = document.querySelector("#divProjetos");
+        tabela.forEach((linha) => {
+          div.innerHTML += `  
+
+                <div>
+            <table id="box">
+              <tr>
+                <th><strong>ID:</strong></th>
+                <th><strong>Nome:</strong></th>
+                <th><strong>Descrição:</strong></th>
+                <th><strong>Data:</strong></th>
+                <th><strong>Funcionários:</strong></th>
+              </tr>
+              <tr>
+              <td>${linha.id}</td>
+              <td>${linha.nome}</td>
+              <td>${linha.descricao}</td>
+              <td>${linha.data}</td>
+              <td>${linha.funcionarios}</td>  
+              </tr>
+            </table>
+          </div>
+          `;
+        });
+      } catch (error) {
+        console.error("Erro ao consultar Projeto", error);
+      }
+    }
+  </script>
+</body>
+</html>
